@@ -15,18 +15,13 @@ using System.Windows.Shapes;
 namespace Transcher.Views
 {
     /// <summary>
-    /// Interaction logic for Login.xaml
+    /// Interaction logic for Dashboard.xaml
     /// </summary>
-    public partial class Login : Window
+    public partial class Dashboard : Window
     {
-        public Login()
+        public Dashboard()
         {
             InitializeComponent();
-        }
-
-        private void btnLogin_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
