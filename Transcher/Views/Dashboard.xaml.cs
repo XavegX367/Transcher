@@ -22,6 +22,7 @@ namespace Transcher.Views
         public Dashboard()
         {
             InitializeComponent();
+            DataContext = this;
         }
     }
 }

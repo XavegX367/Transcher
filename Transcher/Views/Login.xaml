@@ -5,14 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Transcher.Views"
         mc:Ignorable="d"
-        Title="Login" Height="450" Width="800">
+        Title="Login" Height="450" Width="800" 
+        Background="Black"
+        Foreground="white">
     <Grid>
         <StackPanel Width="200" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Text="Email" Margin="0,0,0,10"/>
-            <TextBox Margin="0,0,0,10"/>
+            <TextBox Text="{Binding AccountEmail}" Background="DarkGray" Margin="0,0,0,10"/>
             <TextBlock Margin="0,0,0,10" Text="Wachtwoord"/>
-            <PasswordBox Margin="0,0,0,10"/>
-            <Button x:Name="btnLogin" Content="Login" Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Right" Click="btnLogin_Click"/>
+            <PasswordBox Background="DarkGray" Margin="0,0,0,10"/>
+            <Button Content="Login" Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Right" Click="btnLogin_Click"/>
         </StackPanel>
     </Grid>
 </Window>

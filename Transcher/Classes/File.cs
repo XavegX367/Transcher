@@ -42,6 +42,15 @@ namespace Transcher.Classes
             set { saveName = value; }
         }
 
+        private List<Review> reviews;
+
+        public List<Review> Reviews
+        {
+            get { return reviews; }
+            set { reviews = value; }
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {

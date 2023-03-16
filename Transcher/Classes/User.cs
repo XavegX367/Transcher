@@ -50,6 +50,14 @@ namespace Transcher.Classes
             set { role = value; }
         }
 
+        private List<File> files;
+
+        public List<File> Files
+        {
+            get { return files; }
+            set { files = value; }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)

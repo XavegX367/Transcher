@@ -24,9 +24,53 @@ namespace Transcher.Repositories
                 );
         }
 
+        public User Login(string password, string email)
+        {
+            User user = new User();
+
+            try
+            {
+                // Open connectie
+                _conn.Open();
+
+                // Maak SQL command aan
+                MySqlCommand sql = new MySqlCommand(
+                    "SELECT id, email, name, role FROM `users` WHERE password = @password AND email = @email", _conn);
+                sql.Parameters.AddWithValue("@password", password);
+                sql.Parameters.AddWithValue("@email", email);
+
+                // Voer SQL command uit
+                MySqlDataReader reader = sql.ExecuteReader();
+
+                // Stopt result in een datatable
+                DataTable dataTable = new DataTable();
+                dataTable.Load(reader);
+
+                // Voeg resultaten toe in een account
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    user.Id = (int)row["id"];
+                    user.Name = (string)row["name"];
+                    user.Email = (string)row["email"];
+                    user.Role = (string)row["role"];
+                }
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                _conn.Close();
+            }
+
+            return user;
+        }
+
         public List<User> getUsers()
         {
-            List<User> result = new List<User>();
+            List<User> users = new List<User>();
 
             try
             {
@@ -35,7 +79,7 @@ namespace Transcher.Repositories
 
                 // Create the SQL command
                 MySqlCommand sql = new MySqlCommand(
-                    "SELECT * FROM `user`", _conn);
+                    "SELECT id, email, name, role FROM `users`", _conn);
 
                 // Execute Command
                 MySqlDataReader reader = sql.ExecuteReader();
@@ -47,12 +91,12 @@ namespace Transcher.Repositories
                 // Add results to list
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    result.Add(new User()
+                    users.Add(new User()
                     {
-                        Id = (int)row["Id"],
-                        Email = (string)row["Email"],
-                        Name = (string)row["Name"],
-                        Role = (string)row["Role"],
+                        Id = (int)row["id"],
+                        Email = (string)row["email"],
+                        Name = (string)row["name"],
+                        Role = (string)row["role"],
                     });
                 }
             }
@@ -65,7 +109,7 @@ namespace Transcher.Repositories
                 _conn.Close();
             }
 
-            return result;
+            return users;
         }
     }
 }
