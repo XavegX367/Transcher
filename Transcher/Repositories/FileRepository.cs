@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Transcher.Repositories
 {
-    internal class FileRepository
+    internal class FileRepository : dbLayer
     {
     }
 }

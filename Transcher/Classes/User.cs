@@ -26,14 +26,6 @@ namespace Transcher.Classes
             set { email = value; }
         }
 
-        private string password;
-
-        public string Password
-        {
-            get { return password; }
-            set { password = value; }
-        }
-
         private string name;
 
         public string Name

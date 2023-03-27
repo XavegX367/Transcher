@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,25 +23,41 @@ namespace Transcher.Views
     /// </summary>
     public partial class Login : Window
     {
-        UserRepository User = new UserRepository();
-
-        public string AccountEmail { get; set; }
-        // TODO: Find fix for sending password to user repository
-        public string AccountPassword { get; set; }
+        UserRepository UserRepo = new UserRepository();
+        private User _login;
+        public User loginUser
+        {
+            get { return _login; }
+            set { _login = value; OnPropertyChanged(); }
+        }
 
 
         public Login()
         {
             InitializeComponent();
             DataContext = this;
+            loginUser = new User();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            if (AccountEmail != null && AccountEmail != "" && AccountPassword != null && AccountPassword != "")
+            if (loginUser.Email != null && loginUser.Email != "" && passwordBox.Password != null && passwordBox.Password != "")
             {
-                User.Login(AccountPassword, AccountEmail);   
+                bool check = UserRepo.Login(passwordBox.Password, loginUser.Email);   
+
+                if (check)
+                {
+                    Dashboard dashWin = new Dashboard(loginUser.Email);
+                    dashWin.Show();
+                    this.Close();
+                }
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

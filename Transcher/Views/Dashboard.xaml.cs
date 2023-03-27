@@ -19,7 +19,7 @@ namespace Transcher.Views
     /// </summary>
     public partial class Dashboard : Window
     {
-        public Dashboard()
+        public Dashboard(string email)
         {
             InitializeComponent();
             DataContext = this;

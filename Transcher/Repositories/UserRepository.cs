@@ -9,63 +9,71 @@ using Transcher.Classes;
 
 namespace Transcher.Repositories
 {
-    internal class UserRepository
+    internal class UserRepository : dbLayer
     {
-        MySqlConnection _conn;
-
-        public UserRepository()
+        public void Register(string name, string password, string email)
         {
-            _conn = new MySqlConnection
-                (
-                $"Server=localhost;" +
-                 $"Database=transcher;" +
-                 $"Uid=root;" +
-                 $"Pwd=;"
-                );
-        }
-
-        public User Login(string password, string email)
-        {
-            User user = new User();
-
+            password = password + "$Y.N3T~J*";
+            string salt = BCrypt.Net.BCrypt.GenerateSalt();
+            string encrypted = BCrypt.Net.BCrypt.HashPassword(password, salt);
             try
             {
-                // Open connectie
+                MySqlCommand Cmd = new MySqlCommand("INSERT INTO [USERS] " +
+                "(name, password, email) " +
+                "VALUES(@name, @password, @email)",
+                _conn);
+
+                Cmd.Parameters.AddWithValue("@name", name);
+                Cmd.Parameters.AddWithValue("@password", encrypted);
+                Cmd.Parameters.AddWithValue("@email", email);
+
                 _conn.Open();
 
-                // Maak SQL command aan
-                MySqlCommand sql = new MySqlCommand(
-                    "SELECT id, email, name, role FROM `users` WHERE password = @password AND email = @email", _conn);
-                sql.Parameters.AddWithValue("@password", password);
-                sql.Parameters.AddWithValue("@email", email);
-
-                // Voer SQL command uit
-                MySqlDataReader reader = sql.ExecuteReader();
-
-                // Stopt result in een datatable
-                DataTable dataTable = new DataTable();
-                dataTable.Load(reader);
-
-                // Voeg resultaten toe in een account
-                foreach (DataRow row in dataTable.Rows)
-                {
-                    user.Id = (int)row["id"];
-                    user.Name = (string)row["name"];
-                    user.Email = (string)row["email"];
-                    user.Role = (string)row["role"];
-                }
+                int RowsAffected = Cmd.ExecuteNonQuery();
             }
-            catch (Exception e)
+            catch (Exception)
             {
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
 
-                Console.WriteLine(e.Message);
+        public bool Login(string password, string email)
+        {
+            DataTable dtData = new DataTable();
+            try
+            {
+                _conn.Open();
+                MySqlCommand command = _conn.CreateCommand();
+                command.CommandText = "select * from users where email = @email";
+                command.Parameters.AddWithValue("@email", email);
+                MySqlDataReader reader = command.ExecuteReader();
+
+                dtData.Load(reader);
+            }
+            catch (Exception)
+            {
             }
             finally
             {
                 _conn.Close();
             }
 
-            return user;
+            foreach (DataRow row in dtData.Rows)
+            {
+                string storedHashInDatabase = row["password"].ToString();
+                password = password + "$Y.N3T~J*";
+                bool doesPasswordMatch = BCrypt.Net.BCrypt.Verify(password, storedHashInDatabase);
+
+                if (doesPasswordMatch)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public List<User> getUsers()
