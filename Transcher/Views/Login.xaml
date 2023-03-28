@@ -11,7 +11,7 @@
     <Grid>
         <StackPanel Width="200" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Text="Email" Margin="0,0,0,10"/>
-            <TextBox Text="{Binding loginUser.Email}" Background="DarkGray" Margin="0,0,0,10"/>
+            <TextBox x:Name="inputEmail" Background="DarkGray" Margin="0,0,0,10"/>
             <TextBlock Margin="0,0,0,10" Text="Wachtwoord"/>
             <PasswordBox x:Name="passwordBox" Background="DarkGray" Margin="0,0,0,10"/>
             <Button Content="Login" Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Right" Click="btnLogin_Click"/>

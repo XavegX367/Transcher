@@ -5,51 +5,31 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Transcher.Repositories;
 
 namespace Transcher.Classes
 {
     public class User: INotifyPropertyChanged
     {
-        private int id;
+        UserRepository UserRepo = new UserRepository();
 
-        public int Id
+        private int id { get; set; }
+
+        private string email { get; set; }
+
+        private string name { get; set; }
+
+        public bool login(string email, string password)
         {
-            get { return id; }
-            set { id = value; }
+            bool check = UserRepo.Login(password, email);
+
+            if (check)
+            {
+                return true;
+            }
+
+            return false;
         }
-
-        private string email;
-
-        public string Email
-        {
-            get { return email; }
-            set { email = value; }
-        }
-
-        private string name;
-
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
-
-        private string role;
-
-        public string Role
-        {
-            get { return role; }
-            set { role = value; }
-        }
-
-        private List<File> files;
-
-        public List<File> Files
-        {
-            get { return files; }
-            set { files = value; }
-        }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)

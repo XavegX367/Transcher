@@ -41,13 +41,13 @@ namespace Transcher.Views
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            if (loginUser.Email != null && loginUser.Email != "" && passwordBox.Password != null && passwordBox.Password != "")
+            if (inputEmail.Text != null && inputEmail.Text != "" && passwordBox.Password != null && passwordBox.Password != "")
             {
-                bool check = UserRepo.Login(passwordBox.Password, loginUser.Email);   
+                bool check = loginUser.login(inputEmail.Text, passwordBox.Password);
 
                 if (check)
                 {
-                    Dashboard dashWin = new Dashboard(loginUser.Email);
+                    Dashboard dashWin = new Dashboard(inputEmail.Text);
                     dashWin.Show();
                     this.Close();
                 }
