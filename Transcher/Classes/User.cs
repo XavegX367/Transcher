@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
+using System.Data;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using Transcher.Repositories;
 
 namespace Transcher.Classes
@@ -21,14 +17,34 @@ namespace Transcher.Classes
 
         public bool login(string email, string password)
         {
-            bool check = UserRepo.Login(password, email);
+            DataTable dtData = UserRepo.Login(password, email);
 
-            if (check)
+            foreach (DataRow row in dtData.Rows)
             {
-                return true;
+                string storedHashInDatabase = row["password"].ToString();
+                password = password + "$Y.N3T~J*";
+                bool doesPasswordMatch = BCrypt.Net.BCrypt.Verify(password, storedHashInDatabase);
+
+                return doesPasswordMatch;
             }
 
             return false;
+        }
+
+        public bool register(string name, string email, string password, string confirmPassword)
+        {
+            if(password != confirmPassword)
+            {
+                return false;
+            }
+
+            password = password + "$Y.N3T~J*";
+            string salt = BCrypt.Net.BCrypt.GenerateSalt();
+            string encrypted = BCrypt.Net.BCrypt.HashPassword(password, salt);
+
+            bool check = UserRepo.Register(name, encrypted, email);
+
+            return check;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

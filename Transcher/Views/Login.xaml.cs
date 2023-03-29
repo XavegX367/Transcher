@@ -1,20 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Transcher.Classes;
-using Transcher.Repositories;
 
 namespace Transcher.Views
 {
@@ -23,7 +10,6 @@ namespace Transcher.Views
     /// </summary>
     public partial class Login : Window
     {
-        UserRepository UserRepo = new UserRepository();
         private User _login;
         public User loginUser
         {
@@ -45,13 +31,23 @@ namespace Transcher.Views
             {
                 bool check = loginUser.login(inputEmail.Text, passwordBox.Password);
 
-                if (check)
+                if (!check)
                 {
-                    Dashboard dashWin = new Dashboard(inputEmail.Text);
-                    dashWin.Show();
-                    this.Close();
+                    MessageBox.Show("Onjuist wachtwoord", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
+
+                Dashboard dashWin = new Dashboard(inputEmail.Text);
+                dashWin.Show();
+                this.Close();
             }
+        }
+
+        private void btnRegister_Click(object sender, RoutedEventArgs e)
+        {
+            Register registerWin = new Register();
+            registerWin.Show();
+            this.Close();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
