@@ -24,5 +24,11 @@ namespace Transcher.Views
             InitializeComponent();
             DataContext = this;
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Login loginWin = new();
+            loginWin.Show();
+        }
     }
 }
