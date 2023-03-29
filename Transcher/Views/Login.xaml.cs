@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
+﻿using System.Windows;
 using Transcher.Classes;
 
 namespace Transcher.Views
@@ -14,14 +12,13 @@ namespace Transcher.Views
         public User loginUser
         {
             get { return _login; }
-            set { _login = value; OnPropertyChanged(); }
+            set { _login = value; }
         }
 
 
         public Login()
         {
             InitializeComponent();
-            DataContext = this;
             loginUser = new User();
         }
 
@@ -48,12 +45,6 @@ namespace Transcher.Views
             Register registerWin = new Register();
             registerWin.Show();
             this.Close();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
