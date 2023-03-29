@@ -9,7 +9,6 @@ namespace Transcher.Repositories
         public bool Register(string name, string encrypted, string email)
         {
             int rowsAffected = 0;
-
             try
             {
                 MySqlCommand Cmd = new MySqlCommand("INSERT INTO USERS " +
@@ -56,6 +55,32 @@ namespace Transcher.Repositories
             }
             catch (Exception)
             {
+            }
+            finally
+            {
+                _conn.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable GetUserByEmail(string email)
+        {
+            DataTable dtData = new DataTable();
+            try
+            {
+                _conn.Open();
+                MySqlCommand command = _conn.CreateCommand();
+                command.CommandText = "select * from users where email = @email";
+                command.Parameters.AddWithValue("@email", email);
+                MySqlDataReader reader = command.ExecuteReader();
+
+                dtData.Load(reader);
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
             finally
             {

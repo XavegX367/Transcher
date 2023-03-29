@@ -10,6 +10,49 @@
         Foreground="white"
         Closing="Window_Closing">
     <Grid>
-        
+        <TextBlock VerticalAlignment="Top" HorizontalAlignment="Right" Text="NAAM" Margin="0,5,5,0" x:Name="currentUserName" />
+        <Button VerticalAlignment="Top" HorizontalAlignment="Left" Content="Upload bestand" Margin="5,5,0,0" Click="btnUploadFile_click" />
+
+        <DockPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,40,0,0">
+            <DockPanel>
+                <TextBlock Text="Bestands Type"/>
+                <ComboBox/>
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock Text="Rating"/>
+                <ComboBox/>
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock Text="Sortering"/>
+                <ComboBox/>
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock Text="Downloads"/>
+                <ComboBox/>
+            </DockPanel>
+        </DockPanel>
+
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <ListView>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <DockPanel>
+                                <TextBlock Text="FILENAME"/>
+                                <DockPanel>
+                                    <Button Content="Reviews" />
+                                    <Button Content="Download" />
+                                </DockPanel>
+                            </DockPanel>
+                            <TextBlock Text="RATING"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+        </StackPanel>
     </Grid>
 </Window>

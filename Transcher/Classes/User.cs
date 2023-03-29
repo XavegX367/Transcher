@@ -15,10 +15,14 @@ namespace Transcher.Classes
 
         private string name { get; set; }
 
+        public string getName()
+        {
+            return name;
+        }
+
         public bool login(string email, string password)
         {
             DataTable dtData = UserRepo.Login(password, email);
-
             foreach (DataRow row in dtData.Rows)
             {
                 string storedHashInDatabase = row["password"].ToString();
@@ -45,6 +49,17 @@ namespace Transcher.Classes
             bool check = UserRepo.Register(name, encrypted, email);
 
             return check;
+        }
+
+        public void setUser(string formEmail)
+        {
+            DataTable dtData = UserRepo.GetUserByEmail(formEmail);
+            foreach (DataRow row in dtData.Rows)
+            {
+                id = (int)row["id"];
+                email = (string)row["email"];
+                name = (string)row["name"];
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
