@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Transcher.Views"
         mc:Ignorable="d"
-        Title="Dashboard" Height="450" Width="800">
+        Title="Dashboard" Height="450" Width="800"
+        Background="Black"
+        Foreground="white">
     <Grid>
         
     </Grid>
