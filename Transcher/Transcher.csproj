@@ -8,7 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\" />
+    <None Remove="Assets\Img\logo.png" />
+    <None Remove="Assets\Img\symbol.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Img\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Img\symbol.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\Files\" />
   </ItemGroup>
 
   <ItemGroup>

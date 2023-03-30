@@ -14,7 +14,7 @@ namespace Transcher.Views
         public User loggedUser
         {
             get { return _user; }
-            set { _user = value; OnPropertyChanged(); }
+            set { _user = value; }
         }
 
 
@@ -40,13 +40,8 @@ namespace Transcher.Views
 
         private void btnUploadFile_click(object sender, RoutedEventArgs e)
         {
-            // Open a new window where the user can select a file and fill in the other specifications
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            FileUpload fileUpload = new FileUpload(loggedUser);
+            fileUpload.Show();
         }
     }
 }

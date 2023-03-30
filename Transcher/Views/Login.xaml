@@ -10,6 +10,8 @@
         Foreground="white">
     <Grid>
         <StackPanel Width="200" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Image Width="200" VerticalAlignment="Top" HorizontalAlignment="Left" Source="../Assets/Img/logo.png"/>
+
             <TextBlock Text="Email" Margin="0,0,0,10"/>
             <TextBox x:Name="inputEmail" Background="DarkGray" Margin="0,0,0,10"/>
             <TextBlock Margin="0,0,0,10" Text="Wachtwoord"/>
