@@ -26,7 +26,7 @@ namespace Transcher.Views
         {
             if (inputEmail.Text != null && inputEmail.Text != "" && passwordBox.Password != null && passwordBox.Password != "")
             {
-                bool check = loginUser.login(inputEmail.Text, passwordBox.Password);
+                bool check = loginUser.Login(inputEmail.Text, passwordBox.Password);
 
                 if (!check)
                 {

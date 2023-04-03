@@ -28,8 +28,8 @@ namespace Transcher.Views
 
         public void onBoot(string email)
         {
-            loggedUser.setUser(email);
-            currentUserName.Text = loggedUser.getName();
+            loggedUser.SetUser(email);
+            currentUserName.Text = loggedUser.GetName();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

@@ -42,7 +42,7 @@ namespace Transcher.Views
                 return;
             }
 
-            bool check = user.register(inputName.Text, inputEmail.Text, passwordBox.Password, repeatPasswordBox.Password);
+            bool check = user.Register(inputName.Text, inputEmail.Text, passwordBox.Password, repeatPasswordBox.Password);
 
             if (!check)
             {

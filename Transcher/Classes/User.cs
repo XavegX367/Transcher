@@ -1,28 +1,31 @@
-﻿using System.ComponentModel;
-using System.Data;
-using System.Runtime.CompilerServices;
+﻿using System.Data;
 using Transcher.Repositories;
 
 namespace Transcher.Classes
 {
-    public class User: INotifyPropertyChanged
+    public class User
     {
-        UserRepository UserRepo = new UserRepository();
+        UserRepository _userRepo = new UserRepository();
 
-        private int id { get; set; }
+        private int Id { get; set; }
 
-        private string email { get; set; }
+        private string Email { get; set; }
 
-        private string name { get; set; }
+        private string Name { get; set; }
 
-        public string getName()
+        public string GetName()
         {
-            return name;
+            return Name;
         }
 
-        public bool login(string email, string password)
+        public int GetId()
         {
-            DataTable dtData = UserRepo.Login(password, email);
+            return Id;
+        }
+
+        public bool Login(string email, string password)
+        {
+            DataTable dtData = _userRepo.Login(password, email);
             foreach (DataRow row in dtData.Rows)
             {
                 string storedHashInDatabase = row["password"].ToString();
@@ -35,7 +38,7 @@ namespace Transcher.Classes
             return false;
         }
 
-        public bool register(string name, string email, string password, string confirmPassword)
+        public bool Register(string name, string email, string password, string confirmPassword)
         {
             if(password != confirmPassword)
             {
@@ -46,26 +49,20 @@ namespace Transcher.Classes
             string salt = BCrypt.Net.BCrypt.GenerateSalt();
             string encrypted = BCrypt.Net.BCrypt.HashPassword(password, salt);
 
-            bool check = UserRepo.Register(name, encrypted, email);
+            bool check = _userRepo.Register(name, encrypted, email);
 
             return check;
         }
 
-        public void setUser(string formEmail)
+        public void SetUser(string formEmail)
         {
-            DataTable dtData = UserRepo.GetUserByEmail(formEmail);
+            DataTable dtData = _userRepo.GetUserByEmail(formEmail);
             foreach (DataRow row in dtData.Rows)
             {
-                id = (int)row["id"];
-                email = (string)row["email"];
-                name = (string)row["name"];
+                Id = (int)row["id"];
+                Email = (string)row["email"];
+                Name = (string)row["name"];
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

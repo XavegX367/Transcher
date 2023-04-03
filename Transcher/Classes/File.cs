@@ -1,60 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Transcher.Repositories;
 
 namespace Transcher.Classes
 {
-    public class File: INotifyPropertyChanged
+    public class File
     {
-        private int id;
+        FileRepository _fileRepo = new FileRepository();
 
-        public int Id
+        private int Id { get; set; }
+
+        private string Name { get; set; }
+
+        private string Extension { get; set; }
+
+        private string SaveName { get; set; }
+
+        private string Path { get; set; }
+
+        private IReadOnlyList<Review> Reviews { get; set; }
+
+        public void SetData(int id, string name, string extension, string saveName, string path)
         {
-            get { return id; }
-            set { id = value; }
+            Id = id;
+            Name = name;
+            Extension = extension;
+            SaveName = saveName;
+            Path = path;
         }
 
-        private string name;
-
-        public string Name
+        public int GetId()
         {
-            get { return name; }
-            set { name = value; }
+            return Id;
         }
 
-        private string extension;
-
-        public string Extension
+        public void UploadFile(User user, string extension, string saveName, string path)
         {
-            get { return extension; }
-            set { extension = value; }
-        }
+            Name = System.Guid.NewGuid() + extension;
+            Extension = extension;
+            SaveName = saveName;
+            Path = path;
 
-        private string saveName;
-
-        public string SaveName
-        {
-            get { return saveName; }
-            set { saveName = value; }
-        }
-
-        private List<Review> reviews;
-
-        public List<Review> Reviews
-        {
-            get { return reviews; }
-            set { reviews = value; }
-        }
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            _fileRepo.Upload(user, Name, Extension, SaveName, Path);
         }
     }
 }

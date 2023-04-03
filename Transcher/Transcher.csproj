@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Folder Include="Assets\Files\" />
+    <Folder Include="Tests\" />
   </ItemGroup>
 
   <ItemGroup>

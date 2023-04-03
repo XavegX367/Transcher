@@ -8,36 +8,12 @@ using System.Threading.Tasks;
 
 namespace Transcher.Classes
 {
-    public class Review: INotifyPropertyChanged
+    public class Review
     {
-        private int id;
+        private int Id { get; set; }
 
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
+        private decimal Rating { get; set; }
 
-        private decimal rating;
-
-        public decimal Rating
-        {
-            get { return rating; }
-            set { rating = value; }
-        }
-
-        private string comment;
-
-        public string Comment
-        {
-            get { return comment; }
-            set { comment = value; }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
+        private string Comment { get; set; }
     }
 }

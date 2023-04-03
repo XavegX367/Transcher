@@ -9,6 +9,16 @@
         Background="Black"
         Foreground="white">
     <Grid>
-        
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
+            <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10">
+                <TextBlock Name="tbFilePath" Width="200" Background="LightGray" Foreground="Black"/>
+                <Button Name="btnOpenFile" Click="btnOpenFile_Click">Open file</Button>
+            </DockPanel>
+
+            <DockPanel Margin="10,0,10,0" VerticalAlignment="Center">
+                <Button HorizontalAlignment="Left" Content="Cancel"/>
+                <Button HorizontalAlignment="Right" Content="Upload" x:Name="btnUpload" Click="btnUpload_Click"/>
+            </DockPanel>
+        </StackPanel>
     </Grid>
 </Window>

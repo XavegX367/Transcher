@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Win32;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System;
+using System.IO;
 using Transcher.Classes;
 
 namespace Transcher.Views
@@ -20,7 +11,8 @@ namespace Transcher.Views
     /// </summary>
     public partial class FileUpload : Window
     {
-        public User currentUser = new User();
+        public User currentUser = new();
+        public Transcher.Classes.File file = new();
 
         public FileUpload(User loggedUser)
         {
@@ -31,6 +23,27 @@ namespace Transcher.Views
         public void onBoot(User loggedUser)
         {
             currentUser = loggedUser;
+        }
+
+        private void btnOpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                tbFilePath.Text = Path.GetFullPath(openFileDialog.FileName);
+
+            }
+        }
+
+        private void btnUpload_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (tbFilePath.Text == "")
+            {
+                return;
+            }
+            //file.UploadFile(currentUser, );
         }
     }
 }
