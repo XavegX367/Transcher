@@ -4,7 +4,7 @@ using System.Data;
 
 namespace Transcher.Repositories
 {
-    internal class UserRepository : dbLayer
+    public class UserRepository : dbLayer
     {
         public bool Register(string name, string encrypted, string email)
         {

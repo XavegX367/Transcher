@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Transcher.Repositories
 {
-    internal class dbLayer
+    public class dbLayer
     {
         public MySqlConnection _conn;
         public dbLayer()

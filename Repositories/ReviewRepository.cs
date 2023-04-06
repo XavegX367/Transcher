@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Transcher.Classes;
 
 namespace Transcher.Repositories
 {
     internal class ReviewRepository : dbLayer
     {
-        public void createReview(Review review)
+        public void createReview(Object review)
         {
             //try
             //{

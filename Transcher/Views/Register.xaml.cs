@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using Transcher.Classes;
 
 namespace Transcher.Views
@@ -6,17 +8,18 @@ namespace Transcher.Views
     /// <summary>
     /// Interaction logic for Register.xaml
     /// </summary>
-    public partial class Register : Window
+    public partial class Register : Window, INotifyPropertyChanged
     {
         private User _user;
         public User user
         {
             get { return _user; }
-            set { _user = value; }
+            set { _user = value; OnPropertyChanged(); }
         }
 
         public Register()
         {
+            DataContext = this;
             InitializeComponent();
             user = new User();
         }
@@ -30,7 +33,7 @@ namespace Transcher.Views
 
         private void btnRegister_Click(object sender, RoutedEventArgs e)
         {
-            if(inputName.Text == "" || inputEmail.Text == "" || passwordBox.Password == "")
+            if(user.Name == "" || inputEmail.Text == "" || passwordBox.Password == "")
             {
                 MessageBox.Show("Vul aub alle velden in", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -42,7 +45,7 @@ namespace Transcher.Views
                 return;
             }
 
-            bool check = user.Register(inputName.Text, inputEmail.Text, passwordBox.Password, repeatPasswordBox.Password);
+            bool check = user.Register(inputEmail.Text, passwordBox.Password, repeatPasswordBox.Password);
 
             if (!check)
             {
@@ -53,6 +56,12 @@ namespace Transcher.Views
             Dashboard dashWin = new(inputEmail.Text);
             dashWin.Show();
             this.Close();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

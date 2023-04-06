@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transcher", "Transcher\Transcher.csproj", "{54D88B33-B0E1-4C21-9515-D416CA89CEDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transcher", "Transcher\Transcher.csproj", "{54D88B33-B0E1-4C21-9515-D416CA89CEDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "Repositories\Repositories.csproj", "{2F28BD4D-87F0-4B19-8F53-5BE19B7095DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classes", "Classes\Classes.csproj", "{A6678D32-7CBB-4B69-B224-4F0A7B2E7FDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{54D88B33-B0E1-4C21-9515-D416CA89CEDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54D88B33-B0E1-4C21-9515-D416CA89CEDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54D88B33-B0E1-4C21-9515-D416CA89CEDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F28BD4D-87F0-4B19-8F53-5BE19B7095DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F28BD4D-87F0-4B19-8F53-5BE19B7095DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F28BD4D-87F0-4B19-8F53-5BE19B7095DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F28BD4D-87F0-4B19-8F53-5BE19B7095DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6678D32-7CBB-4B69-B224-4F0A7B2E7FDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6678D32-7CBB-4B69-B224-4F0A7B2E7FDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6678D32-7CBB-4B69-B224-4F0A7B2E7FDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6678D32-7CBB-4B69-B224-4F0A7B2E7FDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

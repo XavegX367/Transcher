@@ -7,21 +7,13 @@ namespace Transcher.Classes
     {
         UserRepository _userRepo = new UserRepository();
 
-        private int Id { get; set; }
+        public int Id { get; set; }
 
         private string Email { get; set; }
 
-        private string Name { get; set; }
+        private string Password { get; set; }
 
-        public string GetName()
-        {
-            return Name;
-        }
-
-        public int GetId()
-        {
-            return Id;
-        }
+        public string Name { get; set; }
 
         public bool Login(string email, string password)
         {
@@ -38,7 +30,7 @@ namespace Transcher.Classes
             return false;
         }
 
-        public bool Register(string name, string email, string password, string confirmPassword)
+        public bool Register(string email, string password, string confirmPassword)
         {
             if(password != confirmPassword)
             {
@@ -49,7 +41,7 @@ namespace Transcher.Classes
             string salt = BCrypt.Net.BCrypt.GenerateSalt();
             string encrypted = BCrypt.Net.BCrypt.HashPassword(password, salt);
 
-            bool check = _userRepo.Register(name, encrypted, email);
+            bool check = _userRepo.Register(Name, encrypted, email);
 
             return check;
         }

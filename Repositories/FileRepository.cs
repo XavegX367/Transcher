@@ -1,15 +1,12 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Data;
-using Transcher.Classes;
 
 namespace Transcher.Repositories
 {
-    internal class FileRepository : dbLayer
+    public class FileRepository : dbLayer
     {
-        File uploadedFile = new();
-
-        public bool Upload(User user, string name, string extension, string saveName, string path)
+        public bool Upload(Object user, string name, string extension, string saveName, string path)
         {
             int rowsAffected = 0;
             try
@@ -33,7 +30,6 @@ namespace Transcher.Repositories
 
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    uploadedFile.SetData((int)row["id"], (string)row["name"], (string)row["extension"], (string)row["save_name"], (string)row["path"]);
                     rowsAffected++;
                 }
             }
@@ -53,7 +49,7 @@ namespace Transcher.Repositories
             return LinkFileToUser(user);
         }
 
-        public bool LinkFileToUser(User user)
+        public bool LinkFileToUser(Object user)
         {
             int rowsAffected = 0;
             try
@@ -63,8 +59,8 @@ namespace Transcher.Repositories
                 "VALUES(@userId, @fileId)",
                 _conn);
 
-                Cmd.Parameters.AddWithValue("userId", user.GetId());
-                Cmd.Parameters.AddWithValue("@fileId", uploadedFile.GetId());
+                //Cmd.Parameters.AddWithValue("userId", user.id);
+                //Cmd.Parameters.AddWithValue("@fileId", uploadedFile.GetId());
 
                 _conn.Open();
 
@@ -85,5 +81,6 @@ namespace Transcher.Repositories
 
             return true;
         }
+
     }
 }

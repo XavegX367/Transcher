@@ -11,7 +11,7 @@
     <Grid>
         <StackPanel Width="200" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Text="Naam" Margin="0,0,0,10"/>
-            <TextBox x:Name="inputName" Background="DarkGray" Margin="0,0,0,10" />
+            <TextBox Text="{Binding user.Name}" Background="DarkGray" Margin="0,0,0,10" />
             <TextBlock Text="Email" Margin="0,0,0,10"/>
             <TextBox x:Name="inputEmail" Background="DarkGray" Margin="0,0,0,10"/>
             <TextBlock Margin="0,0,0,10" Text="Wachtwoord"/>

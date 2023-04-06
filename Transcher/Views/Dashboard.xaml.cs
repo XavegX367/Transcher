@@ -29,7 +29,7 @@ namespace Transcher.Views
         public void onBoot(string email)
         {
             loggedUser.SetUser(email);
-            currentUserName.Text = loggedUser.GetName();
+            currentUserName.Text = loggedUser.Name;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
