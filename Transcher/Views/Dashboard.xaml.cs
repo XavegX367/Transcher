@@ -8,7 +8,7 @@ namespace Transcher.Views
     /// <summary>
     /// Interaction logic for Dashboard.xaml
     /// </summary>
-    public partial class Dashboard : Window
+    public partial class Dashboard : Window, INotifyPropertyChanged
     {
         private User _user;
         public User loggedUser
@@ -29,7 +29,6 @@ namespace Transcher.Views
         public void onBoot(string email)
         {
             loggedUser.SetUser(email);
-            currentUserName.Text = loggedUser.Name;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -42,6 +41,12 @@ namespace Transcher.Views
         {
             FileUpload fileUpload = new FileUpload(loggedUser);
             fileUpload.Show();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

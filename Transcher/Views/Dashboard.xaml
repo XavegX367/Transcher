@@ -10,7 +10,7 @@
         Foreground="white"
         Closing="Window_Closing">
     <Grid>
-        <TextBlock VerticalAlignment="Top" HorizontalAlignment="Right" Text="NAAM" Margin="0,5,5,0" x:Name="currentUserName" />
+        <TextBlock VerticalAlignment="Top" HorizontalAlignment="Right" Text="{Binding loggedUser.Name}" Margin="0,5,5,0" x:Name="currentUserName" />
         <Button VerticalAlignment="Top" HorizontalAlignment="Left" Content="Upload bestand" Margin="5,5,0,0" Click="btnUploadFile_click" />
 
         <DockPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,40,0,0">
