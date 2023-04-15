@@ -9,7 +9,7 @@ namespace Transcher.Classes
 
         private int Id { get; set; }
 
-        private string Name { get; set; }
+        public string Name { get; private set; }
 
         private string Extension { get; set; }
 
@@ -28,17 +28,21 @@ namespace Transcher.Classes
             Path = path;
         }
 
+        public void CreateFile(string path, string name)
+        {
+            Path = path;
+            Name = name;
+        }
+
         public int GetId()
         {
             return Id;
         }
 
-        public void UploadFile(User user, string extension, string saveName, string path)
+        public void UploadFile(User user)
         {
-            Name = System.Guid.NewGuid() + extension;
-            Extension = extension;
-            SaveName = saveName;
-            Path = path;
+            
+            //Name = System.Guid.NewGuid() + extension;
 
             _fileRepo.Upload(user, Name, Extension, SaveName, Path);
         }

@@ -13,6 +13,7 @@ namespace Transcher.Views
     {
         public User currentUser = new();
         public Transcher.Classes.File file = new();
+        OpenFileDialog openFileDialog = new OpenFileDialog();
 
         public FileUpload(User loggedUser)
         {
@@ -27,12 +28,17 @@ namespace Transcher.Views
 
         private void btnOpenFile_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             if (openFileDialog.ShowDialog() == true)
             {
                 tbFilePath.Text = Path.GetFullPath(openFileDialog.FileName);
 
+                string fileName = openFileDialog.FileName;
+                while (fileName.Contains("\\")){
+                    fileName = fileName.Substring(fileName.IndexOf("\\") + 1);
+                }
+
+                file.CreateFile(Path.GetFullPath(openFileDialog.FileName), fileName);
             }
         }
 
@@ -43,7 +49,8 @@ namespace Transcher.Views
             {
                 return;
             }
-            //file.UploadFile(currentUser, );
+
+            file.UploadFile(currentUser);
         }
     }
 }
