@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
+using System.Xml.Linq;
 
 namespace Transcher.Repositories
 {
@@ -77,6 +78,13 @@ namespace Transcher.Repositories
                 MySqlDataReader reader = command.ExecuteReader();
 
                 dtData.Load(reader);
+
+                foreach (DataRow row in dtData.Rows)
+                {
+                    user.Id = (int)row["id"];
+                    user.Email = (string)row["email"];
+                    user.Name = (string)row["name"];
+                }
             }
             catch (Exception)
             {
@@ -88,7 +96,7 @@ namespace Transcher.Repositories
                 _conn.Close();
             }
 
-            return dtData;
+            return user;
         }
     }
 }

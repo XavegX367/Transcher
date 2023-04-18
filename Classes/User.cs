@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using Data.DTO;
+using System.Data;
 using Transcher.Repositories;
 
 namespace Transcher.Classes
@@ -6,6 +7,7 @@ namespace Transcher.Classes
     public class User
     {
         UserRepository _userRepo = new UserRepository();
+        UserDTO _userDTO = new UserDTO();
 
         public int Id { get; set; }
 
@@ -17,18 +19,26 @@ namespace Transcher.Classes
 
         public bool Login(string email, string password)
         {
-            Email = email;
-            Password = password;
+            _userDTO.Email = email;
+            _userDTO.Password = password;
 
-            DataTable dtData = _userRepo.Login(this);
+            DataTable dtData = _userRepo.Login(_userDTO);
+            foreach (DataRow row in dtData.Rows)
+            {
+                string storedHashInDatabase = row["password"].ToString();
+                password = password + "$Y.N3T~J*";
+                bool doesPasswordMatch = BCrypt.Net.BCrypt.Verify(password, storedHashInDatabase);
+
+                return doesPasswordMatch;
+            }
 
             return false;
         }
 
         public bool Register(string email, string password, string confirmPassword)
         {
-            Email = email;
-            if(password != confirmPassword)
+            _userDTO.Email = email;
+            if (password != confirmPassword)
             {
                 return false;
             }
@@ -37,20 +47,18 @@ namespace Transcher.Classes
             string salt = BCrypt.Net.BCrypt.GenerateSalt();
             Password = BCrypt.Net.BCrypt.HashPassword(password, salt);
 
-            bool check = _userRepo.Register(this);
+            bool check = _userRepo.Register(_userDTO);
 
             return check;
         }
 
         public void SetUser(string formEmail)
         {
-            DataTable dtData = _userRepo.GetUserByEmail(formEmail);
-            foreach (DataRow row in dtData.Rows)
-            {
-                Id = (int)row["id"];
-                Email = (string)row["email"];
-                Name = (string)row["name"];
-            }
+            _userDTO.Email = formEmail;
+            _userDTO = _userRepo.GetUserByEmail(_userDTO);
+            Id = _userDTO.Id;
+            Name = _userDTO.Name;
+            Email = _userDTO.Email;
         }
     }
 }

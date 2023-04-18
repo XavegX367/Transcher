@@ -28,6 +28,7 @@ namespace Transcher.Views
 
         private void btnUpload_Click(object sender, RoutedEventArgs e)
         {
+            file.CreateFile(tbName.Text, tbExtension.Text);
             file.UploadFile(currentUser);
         }
     }

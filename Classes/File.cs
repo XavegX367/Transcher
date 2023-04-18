@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using Data.DTO;
+using System.Collections.Generic;
 using Transcher.Repositories;
 
 namespace Transcher.Classes
 {
     public class File
     {
-        FileRepository _fileRepo = new FileRepository();
+        FileRepository _fileRepo = new();
+        FileDTO _fileDTO = new();
+        UserDTO _userDTO = new();
 
         private int Id { get; set; }
 
@@ -38,12 +41,9 @@ namespace Transcher.Classes
 
         public void UploadFile(User user)
         {
+            _userDTO.Id = user.Id;
 
-            //Name = System.Guid.NewGuid() + extension;
-
-            //Microsoft.VisualBasic.FileIO.FileSystem.CopyFile(tbFilePath.Text, destinationPath);
-
-            _fileRepo.Upload(user, this);
+            _fileRepo.Upload(_userDTO, _fileDTO);
         }
     }
 }
