@@ -13,25 +13,22 @@ namespace Transcher.Classes
 
         private string Extension { get; set; }
 
-        private string SaveName { get; set; }
-
-        private string Path { get; set; }
+        private string Downloads { get; set; }
 
         private IReadOnlyList<Review> Reviews { get; set; }
 
-        public void SetData(int id, string name, string extension, string saveName, string path)
+        public void SetData(int id, string name, string extension, string downloads, string path)
         {
             Id = id;
             Name = name;
             Extension = extension;
-            SaveName = saveName;
-            Path = path;
+            Downloads = downloads;
         }
 
-        public void CreateFile(string path, string name)
+        public void CreateFile(string name, string extension)
         {
-            Path = path;
             Name = name;
+            Extension = extension;
         }
 
         public int GetId()
@@ -41,10 +38,12 @@ namespace Transcher.Classes
 
         public void UploadFile(User user)
         {
-            
+
             //Name = System.Guid.NewGuid() + extension;
 
-            _fileRepo.Upload(user, Name, Extension, SaveName, Path);
+            //Microsoft.VisualBasic.FileIO.FileSystem.CopyFile(tbFilePath.Text, destinationPath);
+
+            _fileRepo.Upload(user, this);
         }
     }
 }

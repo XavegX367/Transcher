@@ -26,30 +26,8 @@ namespace Transcher.Views
             currentUser = loggedUser;
         }
 
-        private void btnOpenFile_Click(object sender, RoutedEventArgs e)
-        {
-            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            if (openFileDialog.ShowDialog() == true)
-            {
-                tbFilePath.Text = Path.GetFullPath(openFileDialog.FileName);
-
-                string fileName = openFileDialog.FileName;
-                while (fileName.Contains("\\")){
-                    fileName = fileName.Substring(fileName.IndexOf("\\") + 1);
-                }
-
-                file.CreateFile(Path.GetFullPath(openFileDialog.FileName), fileName);
-            }
-        }
-
         private void btnUpload_Click(object sender, RoutedEventArgs e)
         {
-
-            if (tbFilePath.Text == "")
-            {
-                return;
-            }
-
             file.UploadFile(currentUser);
         }
     }

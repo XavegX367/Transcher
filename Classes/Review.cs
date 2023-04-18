@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Bcpg;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -12,8 +13,16 @@ namespace Transcher.Classes
     {
         private int Id { get; set; }
 
-        private decimal Rating { get; set; }
+        private int UserId { get; set; }
+
+        private int FileId { get; set; }
+
+        private int Rating { get; set; }
+
+        private string Header{ get; set; }
 
         private string Comment { get; set; }
+
+        private DateTime CreatedAt { get; set; }
     }
 }

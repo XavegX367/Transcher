@@ -5,18 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Transcher.Views"
         mc:Ignorable="d"
-        Title="FileUpload" Height="300" Width="400"
+        Title="FileUpload" Height="250" Width="450"
         Background="Black"
-        Foreground="white">
+        Foreground="white"
+        ResizeMode="NoResize"
+        >
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
-            <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10">
-                <TextBlock Name="tbFilePath" Width="200" Background="LightGray" Foreground="Black"/>
-                <Button Name="btnOpenFile" Click="btnOpenFile_Click">Open file</Button>
-            </DockPanel>
+            <StackPanel>
+                <TextBlock Text="Naam"/>
+                <TextBox  x:Name="tbName"/>
+                <TextBlock Text="Extensie"/>
+                <TextBox  x:Name="tbExtension"/>
+            </StackPanel>
 
-            <DockPanel Margin="10,0,10,0" VerticalAlignment="Center">
-                <Button HorizontalAlignment="Left" Content="Cancel"/>
+            <DockPanel Margin="10,10,10,0" VerticalAlignment="Center">
+                <Button HorizontalAlignment="Left" Content="Cancel" Margin="0,0,20,0"/>
                 <Button HorizontalAlignment="Right" Content="Upload" x:Name="btnUpload" Click="btnUpload_Click"/>
             </DockPanel>
         </StackPanel>

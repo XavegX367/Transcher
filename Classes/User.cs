@@ -17,21 +17,17 @@ namespace Transcher.Classes
 
         public bool Login(string email, string password)
         {
-            DataTable dtData = _userRepo.Login(password, email);
-            foreach (DataRow row in dtData.Rows)
-            {
-                string storedHashInDatabase = row["password"].ToString();
-                password = password + "$Y.N3T~J*";
-                bool doesPasswordMatch = BCrypt.Net.BCrypt.Verify(password, storedHashInDatabase);
+            Email = email;
+            Password = password;
 
-                return doesPasswordMatch;
-            }
+            DataTable dtData = _userRepo.Login(this);
 
             return false;
         }
 
         public bool Register(string email, string password, string confirmPassword)
         {
+            Email = email;
             if(password != confirmPassword)
             {
                 return false;
@@ -39,9 +35,9 @@ namespace Transcher.Classes
 
             password = password + "$Y.N3T~J*";
             string salt = BCrypt.Net.BCrypt.GenerateSalt();
-            string encrypted = BCrypt.Net.BCrypt.HashPassword(password, salt);
+            Password = BCrypt.Net.BCrypt.HashPassword(password, salt);
 
-            bool check = _userRepo.Register(Name, encrypted, email);
+            bool check = _userRepo.Register(this);
 
             return check;
         }

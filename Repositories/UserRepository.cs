@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Data.DTO;
+using MySql.Data.MySqlClient;
 using System;
 using System.Data;
 
@@ -6,7 +7,7 @@ namespace Transcher.Repositories
 {
     public class UserRepository : dbLayer
     {
-        public bool Register(string name, string encrypted, string email)
+        public bool Register(UserDTO user)
         {
             int rowsAffected = 0;
             try
@@ -16,9 +17,9 @@ namespace Transcher.Repositories
                 "VALUES(@name, @password, @email)",
                 _conn);
 
-                Cmd.Parameters.AddWithValue("@name", name);
-                Cmd.Parameters.AddWithValue("@password", encrypted);
-                Cmd.Parameters.AddWithValue("@email", email);
+                Cmd.Parameters.AddWithValue("@name", user.Name);
+                Cmd.Parameters.AddWithValue("@password", user.Password);
+                Cmd.Parameters.AddWithValue("@email", user.Email);
 
                 _conn.Open();
 
@@ -40,7 +41,7 @@ namespace Transcher.Repositories
             return true;
         }
 
-        public DataTable Login(string password, string email)
+        public DataTable Login(UserDTO user)
         {
             DataTable dtData = new DataTable();
             try
@@ -48,7 +49,7 @@ namespace Transcher.Repositories
                 _conn.Open();
                 MySqlCommand command = _conn.CreateCommand();
                 command.CommandText = "select * from users where email = @email";
-                command.Parameters.AddWithValue("@email", email);
+                command.Parameters.AddWithValue("@email", user.Email);
                 MySqlDataReader reader = command.ExecuteReader();
 
                 dtData.Load(reader);
@@ -64,7 +65,7 @@ namespace Transcher.Repositories
             return dtData;
         }
 
-        public DataTable GetUserByEmail(string email)
+        public UserDTO GetUserByEmail(UserDTO user)
         {
             DataTable dtData = new DataTable();
             try
@@ -72,7 +73,7 @@ namespace Transcher.Repositories
                 _conn.Open();
                 MySqlCommand command = _conn.CreateCommand();
                 command.CommandText = "select * from users where email = @email";
-                command.Parameters.AddWithValue("@email", email);
+                command.Parameters.AddWithValue("@email", user.Email);
                 MySqlDataReader reader = command.ExecuteReader();
 
                 dtData.Load(reader);
