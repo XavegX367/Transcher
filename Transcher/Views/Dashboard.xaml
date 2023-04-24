@@ -13,44 +13,37 @@
         <TextBlock VerticalAlignment="Top" HorizontalAlignment="Right" Text="{Binding loggedUser.Name}" Margin="0,5,5,0" x:Name="currentUserName" />
         <Button VerticalAlignment="Top" HorizontalAlignment="Left" Content="Upload bestand" Margin="5,5,0,0" Click="btnUploadFile_click" />
 
-        <DockPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,40,0,0">
-            <DockPanel>
-                <TextBlock Text="Bestands Type"/>
-                <ComboBox/>
+        <StackPanel VerticalAlignment="top" HorizontalAlignment="center">
+            <DockPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,20">
+                <DockPanel>
+                    <TextBlock Text="Bestands Type"/>
+                    <ComboBox/>
+                </DockPanel>
+
+                <DockPanel>
+                    <TextBlock Text="Rating"/>
+                    <ComboBox/>
+                </DockPanel>
+
+                <DockPanel>
+                    <TextBlock Text="Sortering"/>
+                    <ComboBox/>
+                </DockPanel>
+
+                <DockPanel>
+                    <TextBlock Text="Downloads"/>
+                    <ComboBox/>
+                </DockPanel>
             </DockPanel>
 
-            <DockPanel>
-                <TextBlock Text="Rating"/>
-                <ComboBox/>
-            </DockPanel>
-
-            <DockPanel>
-                <TextBlock Text="Sortering"/>
-                <ComboBox/>
-            </DockPanel>
-
-            <DockPanel>
-                <TextBlock Text="Downloads"/>
-                <ComboBox/>
-            </DockPanel>
-        </DockPanel>
-
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <ListView>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <DockPanel>
-                                <TextBlock Text="FILENAME"/>
-                                <DockPanel>
-                                    <Button Content="Reviews" />
-                                    <Button Content="Download" />
-                                </DockPanel>
-                            </DockPanel>
-                            <TextBlock Text="RATING"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+            <ListView ItemsSource="{Binding Files}" Width="450" SelectedItem="{Binding SelectedFile}" MouseDoubleClick="ListView_MouseDoubleClick">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="Reviews" DisplayMemberBinding="{Binding AmountOfReviews}" />
+                        <GridViewColumn Header="Downloads" DisplayMemberBinding="{Binding Downloads}" />
+                    </GridView>
+                </ListView.View>
             </ListView>
             
         </StackPanel>

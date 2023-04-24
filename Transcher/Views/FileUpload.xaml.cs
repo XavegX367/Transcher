@@ -28,8 +28,16 @@ namespace Transcher.Views
 
         private void btnUpload_Click(object sender, RoutedEventArgs e)
         {
-            file.CreateFile(tbName.Text, tbExtension.Text);
-            file.UploadFile(currentUser);
+            file.CreateFile(tbName.Text, tbExtension.Text, currentUser);
+            bool status = file.UploadFile();
+
+            if (!status) { 
+                MessageBox.Show("Er is iets misgegaan, probeer het opnieuw.", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+                return; 
+            }
+
+            MessageBox.Show("Bestand is succesvol geupload.", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
+            this.Close();
         }
     }
 }

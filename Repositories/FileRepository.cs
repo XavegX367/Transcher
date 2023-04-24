@@ -1,37 +1,70 @@
 ﻿using Data.DTO;
 using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
 using System;
 using System.Data;
+using System.Xml.Linq;
 
 namespace Transcher.Repositories
 {
     public class FileRepository : dbLayer
     {
-        public bool Upload(UserDTO user, FileDTO file)
+        public FileDTO Upload(FileDTO file)
         {
-            int rowsAffected = 0;
             try
             {
-                MySqlCommand Cmd = new MySqlCommand("INSERT INTO FILES " +
-                "(name, extension, path, created_at) " +
-                "VALUES(@name, @extension, @path, @createdAt)",
+                MySqlCommand cmd = new MySqlCommand("INSERT INTO FILES " +
+                "(name, extension, user_id, created_at, downloads) " +
+                "VALUES(@name, @extension, @user_id, @created_at, @downloads)",
                 _conn);
 
-                Cmd.Parameters.AddWithValue("name", file.Name);
-                Cmd.Parameters.AddWithValue("@extension", file.Extension);
-                Cmd.Parameters.AddWithValue("@user_id", user.Id);
-                Cmd.Parameters.AddWithValue("@createdAt", DateTime.Now);
+                cmd.Parameters.AddWithValue("@name", file.Name);
+                cmd.Parameters.AddWithValue("@extension", file.Extension);
+                cmd.Parameters.AddWithValue("@user_id", file.UserId);
+                cmd.Parameters.AddWithValue("@created_at", file.CreatedAt);
+                cmd.Parameters.AddWithValue("@downloads", file.Downloads);
 
                 _conn.Open();
 
-                MySqlDataReader reader = Cmd.ExecuteReader();
-                DataTable dataTable = new DataTable();
-                dataTable.Load(reader);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                _conn.Close();
+            }
 
-                foreach (DataRow row in dataTable.Rows)
+            file = RetrieveCreatedFile(file);
+
+            return file;
+        }
+
+        public FileDTO RetrieveCreatedFile(FileDTO file)
+        {
+            DataTable dtData = new DataTable();
+            try
+            {
+                _conn.Open();
+                MySqlCommand cmd = _conn.CreateCommand();
+                cmd.CommandText = "select * from FILES where name = @name and extension = @extension and user_id = @user_id and downloads = @downloads ORDER BY created_at DESC limit 1";
+
+                cmd.Parameters.AddWithValue("@name", file.Name);
+                cmd.Parameters.AddWithValue("@extension", file.Extension);
+                cmd.Parameters.AddWithValue("@user_id", file.UserId);
+                cmd.Parameters.AddWithValue("@created_at", file.CreatedAt);
+                cmd.Parameters.AddWithValue("@downloads", file.Downloads);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                dtData.Load(reader);
+
+                foreach (DataRow row in dtData.Rows)
                 {
-                    rowsAffected++;
+                    file.Id = (int)row["id"];
                 }
+
             }
             catch (Exception)
             {
@@ -41,30 +74,37 @@ namespace Transcher.Repositories
                 _conn.Close();
             }
 
-            if(rowsAffected == 0)
-            {
-                return false;
-            }
-
-            return LinkFileToUser(user);
+            return file;
         }
 
-        public bool LinkFileToUser(Object user)
+        public List<FileDTO> RetrieveFiles()
         {
-            int rowsAffected = 0;
+            DataTable dtData = new DataTable();
+            List<FileDTO> files = new List<FileDTO>();
             try
             {
-                MySqlCommand Cmd = new MySqlCommand("INSERT INTO USER_HAS_FILES " +
-                "(user_id, file_id) " +
-                "VALUES(@userId, @fileId)",
-                _conn);
-
-                //Cmd.Parameters.AddWithValue("userId", user.id);
-                //Cmd.Parameters.AddWithValue("@fileId", uploadedFile.GetId());
-
                 _conn.Open();
+                MySqlCommand cmd = _conn.CreateCommand();
+                cmd.CommandText = "SELECT files.id, files.name, files.extension, files.created_at, files.user_id, files.downloads, count(file_has_reviews.id) as amount_of_reviews FROM `files` left join file_has_reviews on file_has_reviews.file_id = files.id GROUP BY files.id";
 
-                rowsAffected = Cmd.ExecuteNonQuery();
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                dtData.Load(reader);
+
+                foreach (DataRow row in dtData.Rows)
+                {
+                    FileDTO file = new FileDTO();
+                    file.Id = (int)row["id"];
+                    file.Name = (string)row["name"];
+                    file.Extension = (string)row["extension"];
+                    file.Downloads = (int)row["downloads"];
+                    file.UserId = (int)row["user_id"];
+                    file.CreatedAt = (DateTime)row["created_at"];
+                    file.AmountOfReviews = (int)(Int64)row["amount_of_reviews"];
+
+                    files.Add(file);
+                }
+
             }
             catch (Exception)
             {
@@ -74,13 +114,7 @@ namespace Transcher.Repositories
                 _conn.Close();
             }
 
-            if (rowsAffected == 0)
-            {
-                return false;
-            }
-
-            return true;
+            return files;
         }
-
     }
 }

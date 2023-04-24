@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using Transcher.Classes;
@@ -17,6 +18,24 @@ namespace Transcher.Views
             set { _user = value; }
         }
 
+        private File _fileClass = new();
+
+        private List<File> _files;
+
+        public List<File> Files
+        {
+            get { return _files; }
+            set { _files = value; }
+        }
+
+        private File _selectedFile;
+
+        public File SelectedFile
+        {
+            get { return _selectedFile; }
+            set { _selectedFile = value; }
+        }
+
 
         public Dashboard(string email)
         {
@@ -29,6 +48,8 @@ namespace Transcher.Views
         public void onBoot(string email)
         {
             loggedUser.SetUser(email);
+            Files = _fileClass.RetrieveFiles();
+
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -47,6 +68,11 @@ namespace Transcher.Views
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ListView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            // TODO: Open a new window where an overview + download button will be shown pass seleced file "SelectedFile"
         }
     }
 }
