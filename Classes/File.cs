@@ -23,7 +23,11 @@ namespace Transcher.Classes
 
         public int AmountOfReviews { get; private set; }
 
-        private IReadOnlyList<Review> Reviews { get; set; }
+        private List<Review> _reviews;
+        public IReadOnlyList<Review> Reviews
+        {
+            get { return _reviews.AsReadOnly(); }
+        }
 
         public void SetData(int id, string name, string extension, int downloads)
         {

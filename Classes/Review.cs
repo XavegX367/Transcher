@@ -17,7 +17,7 @@ namespace Transcher.Classes
 
         private int FileId { get; set; }
 
-        private int Rating { get; set; }
+        public int _Rating { get; set; }
 
         private string Header{ get; set; }
 
