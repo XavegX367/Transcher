@@ -1,7 +1,9 @@
-﻿using System.ComponentModel;
+﻿using Domain.Interfaces;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using Transcher.Classes;
+using Transcher.Repositories;
 
 namespace Transcher.Views
 {
@@ -21,7 +23,8 @@ namespace Transcher.Views
         {
             DataContext = this;
             InitializeComponent();
-            user = new User();
+            IUser userInterface = new UserRepository();
+            user = new User(userInterface);
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -45,7 +48,7 @@ namespace Transcher.Views
                 return;
             }
 
-            bool check = user.Register(inputEmail.Text, passwordBox.Password, repeatPasswordBox.Password);
+            bool check = user.SetupRegister(inputEmail.Text, passwordBox.Password, repeatPasswordBox.Password);
 
             if (!check)
             {

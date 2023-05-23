@@ -1,14 +1,13 @@
-﻿using Data.DTO;
+﻿using Domain.Interfaces;
 using MySql.Data.MySqlClient;
-using System;
 using System.Data;
-using System.Xml.Linq;
+using Transcher.Classes;
 
 namespace Transcher.Repositories
 {
-    public class UserRepository : dbLayer
+    public class UserRepository : dbLayer, IUser
     {
-        public bool Register(UserDTO user)
+        public bool Register(User user)
         {
             int rowsAffected = 0;
             try
@@ -19,8 +18,8 @@ namespace Transcher.Repositories
                 _conn);
 
                 Cmd.Parameters.AddWithValue("@name", user.Name);
-                Cmd.Parameters.AddWithValue("@password", user.Password);
-                Cmd.Parameters.AddWithValue("@email", user.Email);
+                Cmd.Parameters.AddWithValue("@password", user.GetPassword());
+                Cmd.Parameters.AddWithValue("@email", user.GetEmail());
 
                 _conn.Open();
 
@@ -42,7 +41,7 @@ namespace Transcher.Repositories
             return true;
         }
 
-        public DataTable Login(UserDTO user)
+        public DataTable Login(User user)
         {
             DataTable dtData = new DataTable();
             try
@@ -50,13 +49,14 @@ namespace Transcher.Repositories
                 _conn.Open();
                 MySqlCommand command = _conn.CreateCommand();
                 command.CommandText = "select * from users where email = @email";
-                command.Parameters.AddWithValue("@email", user.Email);
+                command.Parameters.AddWithValue("@email", user.GetEmail());
                 MySqlDataReader reader = command.ExecuteReader();
 
                 dtData.Load(reader);
             }
             catch (Exception)
             {
+                throw;
             }
             finally
             {
@@ -66,7 +66,7 @@ namespace Transcher.Repositories
             return dtData;
         }
 
-        public UserDTO GetUserByEmail(UserDTO user)
+        public User GetUserByEmail(User user)
         {
             DataTable dtData = new DataTable();
             try
@@ -74,7 +74,7 @@ namespace Transcher.Repositories
                 _conn.Open();
                 MySqlCommand command = _conn.CreateCommand();
                 command.CommandText = "select * from users where email = @email";
-                command.Parameters.AddWithValue("@email", user.Email);
+                command.Parameters.AddWithValue("@email", user.GetEmail());
                 MySqlDataReader reader = command.ExecuteReader();
 
                 dtData.Load(reader);
@@ -82,13 +82,12 @@ namespace Transcher.Repositories
                 foreach (DataRow row in dtData.Rows)
                 {
                     user.Id = (int)row["id"];
-                    user.Email = (string)row["email"];
+                    user.SetEmail((string)row["email"]);
                     user.Name = (string)row["name"];
                 }
             }
             catch (Exception)
             {
-
                 throw;
             }
             finally

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Interfaces;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using Transcher.Classes;
+using Transcher.Repositories;
 
 namespace Transcher.Views
 {
@@ -18,7 +20,13 @@ namespace Transcher.Views
             set { _user = value; }
         }
 
-        private File _fileClass = new();
+        private File _fileClass;
+
+        public File fileClass
+        {
+            get { return _fileClass; }
+            set { _fileClass = value; }
+        }
 
         private List<File> _files;
 
@@ -36,12 +44,17 @@ namespace Transcher.Views
             set { _selectedFile = value; }
         }
 
+        public IFile fileInterface;
 
         public Dashboard(string email)
         {
             InitializeComponent();
             DataContext = this;
-            loggedUser = new User();
+            IUser userInterface = new UserRepository();
+            loggedUser = new User(userInterface);
+            IFile fileInterface = new FileRepository();
+            fileClass = new File();
+            fileClass.SetRepository(fileInterface);
             onBoot(email);
         }
 

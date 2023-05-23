@@ -1,19 +1,17 @@
-﻿using Data.DTO;
+﻿using Domain.Interfaces;
 using System.Collections.Generic;
-using Transcher.Repositories;
 
 namespace Transcher.Classes
 {
-    public class File
+    public class File: IFile
     {
-        FileRepository _fileRepo = new();
-        FileDTO _fileDTO = new();
+        private IFile? fileRepository;
 
-        private int Id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; private set; }
 
-        private string Extension { get; set; }
+        public string Extension { get; set; }
 
         public int Downloads { get; private set; }
 
@@ -29,65 +27,55 @@ namespace Transcher.Classes
             get { return _reviews.AsReadOnly(); }
         }
 
-        public void SetData(int id, string name, string extension, int downloads)
+        public DateTime GetCreationDate()
+        {
+            return CreatedAt;
+        }
+
+        public int GetUserId()
+        {
+            return UserId;
+        }
+
+        public void SetRepository(IFile fileRepository)
+        {
+            this.fileRepository = fileRepository;
+        }
+
+        public void SetData(int id, string name, string extension, int downloads, DateTime createdAt, int userId, int amountOfReviews)
         {
             Id = id;
             Name = name;
             Extension = extension;
             Downloads = downloads;
-
+            CreatedAt = createdAt;
+            UserId = userId;
+            AmountOfReviews = amountOfReviews;
         }
 
-        public void CreateFile(string name, string extension, User user)
+        public File CreateFile(string name, string extension, User user)
         {
             Name = name;
             Extension = extension;
             Downloads = 0;
             CreatedAt = DateTime.Now;
             UserId = user.Id;
+
+            this.Upload(this);
+
+            return this;
         }
 
-        public int GetId()
+        public File Upload(File file)
         {
-            return Id;
-        }
+            fileRepository.Upload(file);
 
-        public bool UploadFile()
-        {
-            _fileDTO.Name = Name;
-            _fileDTO.Extension = Extension;
-            _fileDTO.Downloads = Downloads;
-            _fileDTO.UserId = UserId;
-            _fileDTO.CreatedAt = CreatedAt;
-
-            _fileDTO = _fileRepo.Upload(_fileDTO);
-            if(_fileDTO.Id != 0)
-            {
-                Id = _fileDTO.Id;
-                return true;
-            }
-
-            return false;
+            return file;
         }
 
         public List<File> RetrieveFiles()
         {
-            List<File> files = new List<File>();
-
-            foreach (FileDTO file in _fileRepo.RetrieveFiles()) {
-                File retrieved = new();
-                retrieved.Id = file.Id;
-                retrieved.Name = file.Name;
-                retrieved.Extension = file.Extension;
-                retrieved.Downloads = file.Downloads;
-                retrieved.CreatedAt = file.CreatedAt;
-                retrieved.UserId = file.UserId;
-                retrieved.AmountOfReviews = file.AmountOfReviews;
-
-                files.Add(retrieved);
-            }
-
-            return files;
+            return fileRepository.RetrieveFiles();
         }
     }
 }

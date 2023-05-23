@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using Domain.Interfaces;
+using System.Windows;
 using Transcher.Classes;
+using Transcher.Repositories;
 
 namespace Transcher.Views
 {
@@ -19,14 +21,15 @@ namespace Transcher.Views
         public Login()
         {
             InitializeComponent();
-            loginUser = new User();
+            IUser userInterface = new UserRepository();
+            loginUser = new User(userInterface);
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             if (inputEmail.Text != null && inputEmail.Text != "" && passwordBox.Password != null && passwordBox.Password != "")
             {
-                bool check = loginUser.Login(inputEmail.Text, passwordBox.Password);
+                bool check = loginUser.SetupLogin(inputEmail.Text, passwordBox.Password);
 
                 if (!check)
                 {

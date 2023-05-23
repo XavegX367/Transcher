@@ -1,13 +1,16 @@
-﻿using Data.DTO;
+﻿using Domain.Interfaces;
 using System.Data;
-using Transcher.Repositories;
 
 namespace Transcher.Classes
 {
-    public class User
+    public class User: IUser
     {
-        UserRepository _userRepo = new UserRepository();
-        UserDTO _userDTO = new UserDTO();
+        private readonly IUser userRepository;
+
+        public User(IUser userRepository)
+        {
+            this.userRepository = userRepository;
+        }
 
         public int Id { get; set; }
 
@@ -17,12 +20,27 @@ namespace Transcher.Classes
 
         public string Name { get; set; }
 
-        public bool Login(string email, string password)
+        public void SetEmail(string email)
         {
-            _userDTO.Email = email;
-            _userDTO.Password = password;
+            Email = email;
+        }
 
-            DataTable dtData = _userRepo.Login(_userDTO);
+        public string GetEmail()
+        {
+            return Email;
+        }
+
+        public string GetPassword()
+        {
+            return Password;
+        }
+
+        public bool SetupLogin(string email, string password)
+        {
+            Email = email;
+            Password = password;
+
+            DataTable dtData = Login(this);
             foreach (DataRow row in dtData.Rows)
             {
                 string storedHashInDatabase = row["password"].ToString();
@@ -35,9 +53,9 @@ namespace Transcher.Classes
             return false;
         }
 
-        public bool Register(string email, string password, string confirmPassword)
+        public bool SetupRegister(string email, string password, string confirmPassword)
         {
-            _userDTO.Email = email;
+            Email = email;
             if (password != confirmPassword)
             {
                 return false;
@@ -47,18 +65,34 @@ namespace Transcher.Classes
             string salt = BCrypt.Net.BCrypt.GenerateSalt();
             Password = BCrypt.Net.BCrypt.HashPassword(password, salt);
 
-            bool check = _userRepo.Register(_userDTO);
+            bool check = Register(this);
 
             return check;
         }
 
         public void SetUser(string formEmail)
         {
-            _userDTO.Email = formEmail;
-            _userDTO = _userRepo.GetUserByEmail(_userDTO);
-            Id = _userDTO.Id;
-            Name = _userDTO.Name;
-            Email = _userDTO.Email;
+            Email = formEmail;
+            User tempUser = new(userRepository);
+            tempUser = GetUserByEmail(this);
+            Id = tempUser.Id;
+            Name = tempUser.Name;
+            Email = tempUser.Email;
+        }
+
+        public bool Register(User user)
+        {
+            return userRepository.Register(user);
+        }
+
+        public User GetUserByEmail(User user)
+        {
+            return userRepository.GetUserByEmail(user);
+        }
+
+        public DataTable Login(User user)
+        {
+            return userRepository.Login(user);
         }
     }
 }

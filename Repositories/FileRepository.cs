@@ -1,15 +1,12 @@
-﻿using Data.DTO;
+﻿using Domain.Interfaces;
 using MySql.Data.MySqlClient;
-using Mysqlx.Crud;
-using System;
 using System.Data;
-using System.Xml.Linq;
 
 namespace Transcher.Repositories
 {
-    public class FileRepository : dbLayer
+    public class FileRepository : dbLayer, IFile
     {
-        public FileDTO Upload(FileDTO file)
+        public Classes.File Upload(Classes.File file)
         {
             try
             {
@@ -20,8 +17,8 @@ namespace Transcher.Repositories
 
                 cmd.Parameters.AddWithValue("@name", file.Name);
                 cmd.Parameters.AddWithValue("@extension", file.Extension);
-                cmd.Parameters.AddWithValue("@user_id", file.UserId);
-                cmd.Parameters.AddWithValue("@created_at", file.CreatedAt);
+                cmd.Parameters.AddWithValue("@user_id", file.GetUserId());
+                cmd.Parameters.AddWithValue("@created_at", file.GetCreationDate());
                 cmd.Parameters.AddWithValue("@downloads", file.Downloads);
 
                 _conn.Open();
@@ -41,7 +38,7 @@ namespace Transcher.Repositories
             return file;
         }
 
-        public FileDTO RetrieveCreatedFile(FileDTO file)
+        public Classes.File RetrieveCreatedFile(Classes.File file)
         {
             DataTable dtData = new DataTable();
             try
@@ -52,8 +49,8 @@ namespace Transcher.Repositories
 
                 cmd.Parameters.AddWithValue("@name", file.Name);
                 cmd.Parameters.AddWithValue("@extension", file.Extension);
-                cmd.Parameters.AddWithValue("@user_id", file.UserId);
-                cmd.Parameters.AddWithValue("@created_at", file.CreatedAt);
+                cmd.Parameters.AddWithValue("@user_id", file.GetUserId());
+                cmd.Parameters.AddWithValue("@created_at", file.GetCreationDate());
                 cmd.Parameters.AddWithValue("@downloads", file.Downloads);
 
                 MySqlDataReader reader = cmd.ExecuteReader();
@@ -77,10 +74,10 @@ namespace Transcher.Repositories
             return file;
         }
 
-        public List<FileDTO> RetrieveFiles()
+        public List<Classes.File> RetrieveFiles()
         {
             DataTable dtData = new DataTable();
-            List<FileDTO> files = new List<FileDTO>();
+            List<Classes.File> files = new List<Classes.File>();
             try
             {
                 _conn.Open();
@@ -93,14 +90,17 @@ namespace Transcher.Repositories
 
                 foreach (DataRow row in dtData.Rows)
                 {
-                    FileDTO file = new FileDTO();
-                    file.Id = (int)row["id"];
-                    file.Name = (string)row["name"];
-                    file.Extension = (string)row["extension"];
-                    file.Downloads = (int)row["downloads"];
-                    file.UserId = (int)row["user_id"];
-                    file.CreatedAt = (DateTime)row["created_at"];
-                    file.AmountOfReviews = (int)(Int64)row["amount_of_reviews"];
+                    // ToDo: Add constructor so we don't need to do everything seperated
+                    Classes.File file = new Classes.File();
+                    file.SetData(
+                        (int)row["id"],
+                        (string)row["name"],
+                        (string)row["extension"],
+                        (int)row["downloads"],
+                        (DateTime)row["created_at"],
+                        (int)row["user_id"],
+                        (int)(Int64)row["amount_of_reviews"]
+                    );
 
                     files.Add(file);
                 }

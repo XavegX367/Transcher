@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Classes\Domain.csproj" />
+    <ProjectReference Include="..\Repositories\Data.csproj" />
   </ItemGroup>
 
 </Project>

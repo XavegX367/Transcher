@@ -3,6 +3,8 @@ using System.Windows;
 using System;
 using System.IO;
 using Transcher.Classes;
+using Domain.Interfaces;
+using Transcher.Repositories;
 
 namespace Transcher.Views
 {
@@ -11,13 +13,31 @@ namespace Transcher.Views
     /// </summary>
     public partial class FileUpload : Window
     {
-        public User currentUser = new();
-        public Transcher.Classes.File file = new();
+        private User _currentUser;
+        public User currentUser
+        {
+            get { return _currentUser; }
+            set { _currentUser = value; }
+        }
+
+        private Transcher.Classes.File _file;
+
+        public Transcher.Classes.File file 
+        { 
+            get { return _file; } 
+            set { _file = value; } 
+        }
+
         OpenFileDialog openFileDialog = new OpenFileDialog();
 
         public FileUpload(User loggedUser)
         {
             InitializeComponent();
+            IUser userInterface = new UserRepository();
+            currentUser = new User(userInterface);
+            IFile fileInterface = new FileRepository();
+            file = new Classes.File();
+            file.SetRepository(fileInterface);
             onBoot(loggedUser);
         }
 
@@ -28,10 +48,9 @@ namespace Transcher.Views
 
         private void btnUpload_Click(object sender, RoutedEventArgs e)
         {
-            file.CreateFile(tbName.Text, tbExtension.Text, currentUser);
-            bool status = file.UploadFile();
+            Transcher.Classes.File newFile = file.CreateFile(tbName.Text, tbExtension.Text, currentUser);
 
-            if (!status) { 
+            if (newFile is not Transcher.Classes.File) { 
                 MessageBox.Show("Er is iets misgegaan, probeer het opnieuw.", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
                 return; 
             }
