@@ -6,7 +6,7 @@ namespace Transcher.Repositories
 {
     public class FileRepository : dbLayer, IFile
     {
-        public Classes.File Upload(Classes.File file)
+        public bool Upload(Classes.File file)
         {
             try
             {
@@ -35,7 +35,12 @@ namespace Transcher.Repositories
 
             file = RetrieveCreatedFile(file);
 
-            return file;
+            if(file != null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public Classes.File RetrieveCreatedFile(Classes.File file)

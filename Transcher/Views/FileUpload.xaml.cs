@@ -48,9 +48,9 @@ namespace Transcher.Views
 
         private void btnUpload_Click(object sender, RoutedEventArgs e)
         {
-            Transcher.Classes.File newFile = file.CreateFile(tbName.Text, tbExtension.Text, currentUser);
+            bool result = file.CreateFile(tbName.Text, tbExtension.Text, currentUser);
 
-            if (newFile is not Transcher.Classes.File) { 
+            if (!result) { 
                 MessageBox.Show("Er is iets misgegaan, probeer het opnieuw.", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
                 return; 
             }

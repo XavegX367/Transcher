@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Interfaces
+namespace UnitTests
 {
-    public interface IReview
+    public class FilesTests
     {
     }
 }

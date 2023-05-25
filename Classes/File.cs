@@ -53,7 +53,7 @@ namespace Transcher.Classes
             AmountOfReviews = amountOfReviews;
         }
 
-        public File CreateFile(string name, string extension, User user)
+        public bool CreateFile(string name, string extension, User user)
         {
             Name = name;
             Extension = extension;
@@ -61,16 +61,16 @@ namespace Transcher.Classes
             CreatedAt = DateTime.Now;
             UserId = user.Id;
 
-            this.Upload(this);
+            bool result = Upload(this);
 
-            return this;
+            return result;
         }
 
-        public File Upload(File file)
+        public bool Upload(File file)
         {
-            fileRepository.Upload(file);
+            bool result = fileRepository.Upload(file);
 
-            return file;
+            return result;
         }
 
         public List<File> RetrieveFiles()

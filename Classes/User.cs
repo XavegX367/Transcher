@@ -1,5 +1,6 @@
 ﻿using Domain.Interfaces;
 using System.Data;
+using BCrypt.Net;
 
 namespace Transcher.Classes
 {

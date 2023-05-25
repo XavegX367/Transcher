@@ -9,7 +9,7 @@ namespace Domain.Interfaces
 {
     public interface IFile
     {
-        Transcher.Classes.File Upload(Transcher.Classes.File file);
+        bool Upload(Transcher.Classes.File file);
 
         List<Transcher.Classes.File> RetrieveFiles();
     }
