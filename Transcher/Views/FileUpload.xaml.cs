@@ -58,5 +58,11 @@ namespace Transcher.Views
             MessageBox.Show("Bestand is succesvol geupload.", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Dashboard dashWin = new Dashboard(currentUser);
+            dashWin.Show();
+        }
     }
 }

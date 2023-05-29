@@ -71,9 +71,8 @@ namespace Transcher.Classes
             return check;
         }
 
-        public void SetUser(string formEmail)
+        public void SetUser()
         {
-            Email = formEmail;
             User tempUser = new(userRepository);
             tempUser = GetUserByEmail(this);
             Id = tempUser.Id;

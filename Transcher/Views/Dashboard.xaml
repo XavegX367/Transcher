@@ -7,8 +7,7 @@
         mc:Ignorable="d"
         Title="Dashboard" Height="450" Width="800"
         Background="Black"
-        Foreground="white"
-        Closing="Window_Closing">
+        Foreground="white">
     <Grid>
         <TextBlock VerticalAlignment="Top" HorizontalAlignment="Right" Text="{Binding loggedUser.Name}" Margin="0,5,5,0" x:Name="currentUserName" />
         <Button VerticalAlignment="Top" HorizontalAlignment="Left" Content="Upload bestand" Margin="5,5,0,0" Click="btnUploadFile_click" />

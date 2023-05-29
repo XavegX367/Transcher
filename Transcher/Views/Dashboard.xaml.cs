@@ -46,7 +46,7 @@ namespace Transcher.Views
 
         public IFile fileInterface;
 
-        public Dashboard(string email)
+        public Dashboard(User user)
         {
             InitializeComponent();
             DataContext = this;
@@ -55,26 +55,22 @@ namespace Transcher.Views
             IFile fileInterface = new FileRepository();
             fileClass = new File();
             fileClass.SetRepository(fileInterface);
-            onBoot(email);
+            loggedUser = user;
+            onBoot();
         }
 
-        public void onBoot(string email)
+        public void onBoot()
         {
-            loggedUser.SetUser(email);
+            loggedUser.SetUser();
             Files = _fileClass.RetrieveFiles();
 
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            Login loginWin = new();
-            loginWin.Show();
         }
 
         private void btnUploadFile_click(object sender, RoutedEventArgs e)
         {
             FileUpload fileUpload = new FileUpload(loggedUser);
             fileUpload.Show();
+            this.Close();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -85,7 +81,9 @@ namespace Transcher.Views
 
         private void ListView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            // TODO: Open a new window where an overview + download button will be shown pass seleced file "SelectedFile"
+            FileDetails detailsWin = new FileDetails(SelectedFile, loggedUser);
+            detailsWin.Show();
+            this.Close();
         }
     }
 }

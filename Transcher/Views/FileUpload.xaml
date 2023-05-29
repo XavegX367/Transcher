@@ -9,6 +9,7 @@
         Background="Black"
         Foreground="white"
         ResizeMode="NoResize"
+        Closing="Window_Closing"
         >
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">

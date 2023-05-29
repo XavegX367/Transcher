@@ -56,7 +56,7 @@ namespace Transcher.Views
                 return;
             }
 
-            Dashboard dashWin = new(inputEmail.Text);
+            Dashboard dashWin = new(user);
             dashWin.Show();
             this.Close();
         }

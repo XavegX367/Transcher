@@ -11,6 +11,7 @@
         Background="Black"
         Foreground="white"
         ResizeMode="NoResize"
+        Closing="Window_Closing"
         >
     <Grid>
         <Grid.ColumnDefinitions>
