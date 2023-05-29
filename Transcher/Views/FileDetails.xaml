@@ -21,7 +21,7 @@
         
         <DockPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10">
             <TextBlock Text="Detail view of: "/>
-            <TextBlock Text="FILENAME" x:Name="tbFileName"/>
+            <TextBlock Text="{Binding currentFile.Name}"/>
         </DockPanel>
 
         <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0">
@@ -38,17 +38,17 @@
             <StackPanel Margin="0,20,0,0">
                 <DockPanel Margin="0,0,0,10">
                     <TextBlock Text="Title"/>
-                    <TextBox Margin="45,0,0,0" Width="150"/>
+                    <TextBox Margin="45,0,0,0" Width="150" Text="{Binding review.Header}"/>
                 </DockPanel>
                 
                 <DockPanel Margin="0,0,0,10">
                     <TextBlock Text="Message"/>
-                    <TextBox Margin="20,0,0,0" Width="150"/>
+                    <TextBox Margin="20,0,0,0" Width="150" Text="{Binding review.Comment}"/>
                 </DockPanel>
 
                 <DockPanel Margin="0,0,0,10">
                     <TextBlock Text="Rating"/>
-                    <TextBox Margin="30,0,0,0" Width="150"/>
+                    <TextBox Margin="30,0,0,0" Width="150" Text="{Binding review._Rating}" />
                 </DockPanel>
 
                 <Button Content="Submit" x:Name="btnSubmitReview" Click="btnSubmitReview_Click"/>

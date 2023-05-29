@@ -77,5 +77,14 @@ namespace Transcher.Classes
         {
             return fileRepository.RetrieveFiles();
         }
+
+        public void GetReviews()
+        {
+        }
+
+        public void AppendReview(Review review)
+        {
+            Reviews.Append(review);
+        }
     }
 }
