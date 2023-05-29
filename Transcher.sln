@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Repositories\Data.c
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Classes\Domain.csproj", "{A6678D32-7CBB-4B69-B224-4F0A7B2E7FDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "Tests\UnitTests.csproj", "{2DB5F403-7A9F-4AA9-8124-ACF7002A1DDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{2DB5F403-7A9F-4AA9-8124-ACF7002A1DDE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A6678D32-7CBB-4B69-B224-4F0A7B2E7FDC} = {A6678D32-7CBB-4B69-B224-4F0A7B2E7FDC}
 	EndProjectSection
